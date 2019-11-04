@@ -18,7 +18,7 @@ export default class PostResource extends Resource {
   static listShape<T extends typeof Resource>(this: T) {
     return {
       ...super.listShape(),
-      schema: { posts: [this.getEntitySchema()] },
+      schema: { posts: [this.getEntitySchema()], nextPage: '', prevPage: '' },
     };
   }  
 }
