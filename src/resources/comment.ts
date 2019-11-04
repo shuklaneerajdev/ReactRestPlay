@@ -1,46 +1,46 @@
-import { Resource, AbstractInstanceType } from 'rest-hooks';
-export default class CommentResource extends Resource {
-    readonly id: string = '';
+import { camelCase, snakeCase } from 'lodash';
+import { Method, Resource } from 'rest-hooks';
   
-    pk() { return this.id; }
-  
-    // since we won't be using urlRoot to build our urls we
-    // still need to tell rest hooks how to uniquely identify this Resource
-    static getKey() {
-      return 'CommentResource';
-    }
-  
-    /**
-     * Get the url for a Resource
-     */
-    static url<T extends typeof Resource>(
-      this: T,
-      urlParams?: { postId: string } & Partial<AbstractInstanceType<T>>,): string {
-      if (urlParams) {
-        const { postId, ...realSearchParams } = urlParams;
-        if (this.pk(urlParams) !== undefined) {
-          return `http://localhost:3000/articles/${postId}/comments/${this.pk(urlParams)}`;
-        }
+  function deeplyApplyKeyTransform(obj: any, transform: (key: string) => string) {
+    const ret: { [key: string]: any } = Array.isArray(obj) ? [] : {};
+    Object.keys(obj).forEach(key => {
+      if (obj[key] != null && typeof obj[key] === 'object') {
+        ret[transform(key)] = deeplyApplyKeyTransform(obj[key], transform);
+      } else {
+        ret[transform(key)] = obj[key];
       }
-      // since we're overriding the url() function we must keep the type the
-      // same, which means we might not get urlParams
-      throw new Error('Comments require articleId to retrieve');
-    }
+    });
+    return ret;
+  }
   
-    /**
-     * Get the url for many Resources
-     */
-    static listUrl<T extends typeof Resource>(
+  // We can now extend CamelResource instead of Resource to build
+  // all of our classes.
+  abstract class CamelResource extends Resource {
+    static async fetch<T extends typeof Resource>(
       this: T,
-      searchParams?: { postId: string } & Readonly<Record<string, string | number>>,
-    ): string {
-      if (searchParams && Object.keys(searchParams).length) {
-        const { postId, ...realSearchParams } = searchParams;
-        const params = new URLSearchParams(realSearchParams as any);
-        // this is essential for consistent url strings
-        params.sort();
-        return `http://localhost:3000/articles/${postId}/comments/?${params.toString()}`;
+      method: Method = 'get',
+      url: string,
+      body?: Readonly<object | string>,
+    ) {
+      // we'll need to do the inverse operation when sending data back to the server
+      if (body) {
+        body = deeplyApplyKeyTransform(body, snakeCase);
       }
-      throw new Error('Comments require articleId to retrieve');
+      // perform actual network request getting back json
+      const jsonResponse = await super.fetch(method, url, body);
+      // do the conversion!
+      return deeplyApplyKeyTransform(jsonResponse, camelCase);
     }
   }
+
+export default class PostResource extends CamelResource {
+  readonly id: number | undefined = undefined;
+  readonly content: string = '';
+  readonly postId: number | undefined = undefined;
+
+  pk() {
+    return this.id;
+  }
+
+  static urlRoot = 'http://localhost:3000/comments/';
+}

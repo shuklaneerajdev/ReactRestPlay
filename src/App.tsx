@@ -2,6 +2,8 @@ import { NetworkErrorBoundary } from 'rest-hooks';
 import React, { Suspense } from 'react';
 import PostAndAuthor from "./UIElements/PostAndAuthor";
 import PostIndex from './UIElements/PostIndex';
+import CommentIndex from './UIElements/CommentIndex';
+import AuthorIndex from './UIElements/AuthorIndex';
 import Spinner from "./UIElements/Spinner";
 import {
   BrowserRouter as Router,
@@ -25,7 +27,10 @@ export default function App() {
                 <Link to="/postAndAuthor">Post and Author</Link>
               </li>
               <li>
-                <Link to="/users">Users</Link>
+                <Link to="/authors">Authors</Link>
+              </li>
+              <li>
+                <Link to="/comments">Comments </Link>
               </li>
             </ul>
           </nav>
@@ -33,11 +38,14 @@ export default function App() {
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
             <Route path="/postAndAuthor">
               <PostAndAuthor id={5}/>
+            </Route>
+            <Route path="/comments">
+              <CommentIndex />
+            </Route>
+            <Route path="/authors">
+              <AuthorIndex />
             </Route>
             <Route path="/">
               <PostIndex />
