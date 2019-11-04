@@ -4,6 +4,8 @@ import PostAndAuthor from "./UIElements/PostAndAuthor";
 import PostIndex from './UIElements/PostIndex';
 import CommentIndex from './UIElements/CommentIndex';
 import AuthorIndex from './UIElements/AuthorIndex';
+import PostWithCommentInterface from './UIElements/PostWithCommentInterface';
+
 import Spinner from "./UIElements/Spinner";
 import {
   BrowserRouter as Router,
@@ -28,6 +30,9 @@ export default function App() {
                 <Link to="/postAndAuthor">Post and Author</Link>
               </li>
               <li>
+                <Link to="/postWithCommentInterface">Post with comment Interface</Link>
+              </li>
+              <li>
                 <Link to="/authors">Authors</Link>
               </li>
               <li>
@@ -47,6 +52,9 @@ export default function App() {
             </Route>
             <Route path="/comments">
               <CommentIndex />
+            </Route>
+            <Route path="/postWithCommentInterface">
+              <PostWithCommentInterface id={10} />
             </Route>
             <Route path="/authors">
               <AuthorIndex />
