@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { NetworkErrorBoundary } from 'rest-hooks';
+import React, { Suspense } from 'react';
+import PostAndAuthor from "./UIElements/PostAndAuthor";
+import PostIndex from './UIElements/PostIndex';
+import Spinner from "./UIElements/Spinner";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-const App: React.FC = () => {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={<Spinner />}>
+      <NetworkErrorBoundary>
+        <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/postAndAuthor">Post and Author</Link>
+              </li>
+              <li>
+                <Link to="/users">Users</Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* A <Switch> looks through its children <Route>s and
+              renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/postAndAuthor">
+              <PostAndAuthor id={5}/>
+            </Route>
+            <Route path="/">
+              <PostIndex />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+
+      </NetworkErrorBoundary>
+    </Suspense>    
   );
 }
 
-export default App;
+function Home() {
+  return <h2>Home</h2>;
+}
+
+function About() {
+  return <h2>Users</h2>;
+}
