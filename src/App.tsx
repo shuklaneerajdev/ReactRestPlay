@@ -5,6 +5,7 @@ import PostIndex from './UIElements/PostIndex';
 import CommentIndex from './UIElements/CommentIndex';
 import AuthorIndex from './UIElements/AuthorIndex';
 import PostWithCommentInterface from './UIElements/PostWithCommentInterface';
+import PostWithCommentViaCache from './UIElements/PostWithCommentViaCache';
 
 import Spinner from "./UIElements/Spinner";
 import {
@@ -33,6 +34,9 @@ export default function App() {
                 <Link to="/postWithCommentInterface">Post with comment Interface</Link>
               </li>
               <li>
+                <Link to="/postWithCommentViaCache">Post with comment via cache</Link>
+              </li>
+              <li>
                 <Link to="/authors">Authors</Link>
               </li>
               <li>
@@ -55,6 +59,9 @@ export default function App() {
             </Route>
             <Route path="/postWithCommentInterface">
               <PostWithCommentInterface id={10} />
+            </Route>
+            <Route path="/postWithCommentViaCache">
+              <PostWithCommentViaCache id={1} />
             </Route>
             <Route path="/authors">
               <AuthorIndex />

@@ -33,7 +33,7 @@ import { Method, Resource } from 'rest-hooks';
     }
   }
 
-export default class PostResource extends CamelResource {
+export default class CommentResource extends CamelResource {
   readonly id: number | undefined = undefined;
   readonly content: string = '';
   readonly postId: number | undefined = undefined;
