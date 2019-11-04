@@ -11,6 +11,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import PassedParams from './UIElements/PassedParams';
 
 export default function App() {
   return (
@@ -32,6 +33,9 @@ export default function App() {
               <li>
                 <Link to="/comments">Comments </Link>
               </li>
+              <li>
+                <Link to="/passedParams">Passed Params </Link>
+              </li>
             </ul>
           </nav>
 
@@ -46,6 +50,9 @@ export default function App() {
             </Route>
             <Route path="/authors">
               <AuthorIndex />
+            </Route>
+            <Route path="/passedParams">
+              <PassedParams />
             </Route>
             <Route path="/">
               <PostIndex />
