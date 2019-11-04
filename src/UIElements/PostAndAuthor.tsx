@@ -16,6 +16,13 @@ export default function PostAndAuthor({ id }: { id: number|undefined }) {
     );
     return (
         <ul>
+            <div>
+                <blockquote>
+                    Once we get an entity, and the IDs of its related entities, we 
+                    can can make sequential call such as above to get them all together 
+                    at once place and display them.
+                </blockquote>
+            </div>
         <div>
         <h1>
             {post.id} by {author && author.name}

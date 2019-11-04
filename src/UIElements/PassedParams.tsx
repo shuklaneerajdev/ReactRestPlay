@@ -11,6 +11,9 @@ export default function PassedParams() {
       );
     return (
         <ul>        
+            <p>
+                We pass different params to the list of posts.
+            </p>
         {posts.map(post => (            
             <li> <h3>{post.title}</h3> {post.content}</li>
         ))}
