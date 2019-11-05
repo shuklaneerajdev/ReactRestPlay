@@ -13,14 +13,14 @@ export default function PostWithCommentViaCache({ id }: { id: number|undefined }
     const comment = useCache(CommentResource.detailShape(), { id: post.morecomment});
 
     return (
-        <p>
+        <div>
             {post.content}
             <p>
                 {post.morecomment}
             </p>
             <p>
-            {comment}
+            {comment!=null && <p>{comment.content}</p> }
             </p>
-        </p>
+        </div>
       );
 }
